@@ -1,18 +1,16 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div>
+      特色
   </div>
     
 </template>
 <script>
 export default {
-  
+    
 }
 </script>
 <style scoped>
-  #app{
-    height: 100%;
-  }
- 
 
 </style>
+
+
