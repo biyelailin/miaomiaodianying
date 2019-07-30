@@ -10,8 +10,8 @@ import Header from '@/components/header.vue'
 import Footer from "@/components/footer.vue"
 import Login from "@/components/Login/index.vue"
 export default {
-    name:'mine',
-    data:()=>{
+    name:'Mine',
+    data(){
         return{
 
         }

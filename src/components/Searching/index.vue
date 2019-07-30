@@ -3,28 +3,19 @@
 		<div class="search_input">
 			<div class="search_input_wrapper">
 				<i class="iconfont icon-sousuo"></i>
-				<input type="text">
+				<input type="text" v-model="message">
 			</div>					
 		</div>
 		<div class="search_result">
 			<h3>电影/电视剧/综艺</h3>
 			<ul>
-				<li>
-					<div class="img"><img src="@/assets/images/movie_1.jpg"></div>
+				<li v-for="item in searchList" :key="item.id">
+					<div class="img"><img :src="item.img | fliterImg('64.90')"></div>
 					<div class="info">
-						<p><span>无名之辈</span><span>8.5</span></p>
-						<p>A Cool Fish</p>
-						<p>剧情,喜剧,犯罪</p>
-						<p>2018-11-16</p>
-					</div>
-				</li>
-				<li>
-					<div class="img"><img src="@/assets/images/movie_1.jpg"></div>
-					<div class="info">
-						<p><span>无名之辈</span><span>8.5</span></p>
-						<p>A Cool Fish</p>
-						<p>剧情,喜剧,犯罪</p>
-						<p>2018-11-16</p>
+						<p><span>{{item.nm}}</span><span>{{item.sc}}</span></p>
+						<p>{{item.star}}</p>
+						<p>{{item.cat}}</p>
+						<p>{{item.rt}}</p>
 					</div>
 				</li>
 			</ul>
@@ -32,8 +23,48 @@
 	</div> 
 </template>
 <script>
+// import { constants } from 'crypto';
 export default {
-    
+	name:'Search',
+	data(){
+		return{
+			message:'',
+			searchList:[]
+		}
+	},
+	watch:{  // 实现获取数据异步化
+	    message(newName,oldName){
+			 // 2. 先调用终止请求方法
+			 this.cancelRequest()
+			 var that = this
+			 this.axios.get(`/api/searchList?cityId=10&kw=${newName}`, {
+               cancelToken: new this.axios.CancelToken( function executor(c) {
+			    that.source = c
+			   })
+			 })
+			 .then((res)=>{
+               if(res.data.msg === 'ok'){
+				   var list = res.data.data.movies
+				   if(list){
+					 this.searchList = list.list
+				   }else{
+					  this.searchList = [] 
+				   }				   
+			   }
+			 })	
+			 .catch((err)=>{
+                 console.log(err)
+			 })	
+		} 
+	},
+	methods:{
+		   // 1. 定义终止请求方法
+       cancelRequest() {
+          if (typeof this.source === 'function') {
+             this.source('终止请求!')
+          }  
+	   }   
+}
 }
 </script>
 <style scoped>

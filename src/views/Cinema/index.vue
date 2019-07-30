@@ -38,6 +38,8 @@ export default {
 }
 </script>
 <style scoped>
+   #mian{height: 100%}
+   #content{ flex:1; overflow:auto; margin-bottom: 50px; position: relative; display: flex; flex-direction:column; height: 100%}
    #content .cinema_menu{ width: 100%; height: 45px; border-bottom:1px solid #e6e6e6; display: flex; justify-content:space-around; align-items:center; background:white;}
 </style>
 
